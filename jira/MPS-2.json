@@ -1,0 +1,21 @@
+{
+  "key": "MPS-2",
+  "project": "Mall Parking System",
+  "issue_type": "Story",
+  "summary": "Issue a parking ticket when a vehicle enters",
+  "status": "To Do",
+  "priority": "Highest",
+  "story_points": 5,
+  "labels": ["mvp", "entry-gate", "ticketing"],
+  "confluence_page_id": "CONF-MPS-002",
+  "user_story": "As a driver, I want a parking ticket at the entry gate so that my entry time is recorded.",
+  "description": "Create an OPEN ticket containing a unique ticket ID, normalized vehicle number, and server-generated entry time. Reject entry when the lot is full.",
+  "acceptance_criteria": [
+    "Every accepted entry creates exactly one unique OPEN ticket.",
+    "The occupied-space count increases exactly once.",
+    "No ticket is issued when occupancy equals configured capacity.",
+    "Repeating an entry request with the same idempotency key returns the existing ticket."
+  ],
+  "dependencies": ["MPS-1"],
+  "out_of_scope": ["License-plate recognition", "Reserved bays"]
+}

@@ -1,0 +1,34 @@
+{
+  "page_id": "CONF-MPS-005",
+  "space_key": "MALLPARK",
+  "title": "Lost Ticket Processing",
+  "linked_jira_key": "MPS-5",
+  "status": "Draft",
+  "version": 1,
+  "overview": "Authorized staff recover the unique open parking session, record verification, and route the resolved charge through normal payment and exit.",
+  "actors": ["Cashier", "Parking Manager", "Driver"],
+  "preconditions": ["The staff user has an allowed role.", "The driver provides a vehicle number and verification details."],
+  "main_flow": [
+    "Staff searches by normalized vehicle number.",
+    "The system finds the unique OPEN ticket.",
+    "Staff records a verification note.",
+    "The system charges the greater of the normal fee and lost-ticket fee.",
+    "The normal payment and exit flow closes the original ticket.",
+    "The system records an audit event."
+  ],
+  "alternative_flows": [
+    {"condition": "No unique OPEN ticket is found.", "result": "Escalate to a parking manager without accepting automatic payment."},
+    {"condition": "The verification note is empty.", "result": "Prevent payment."}
+  ],
+  "business_rules": [
+    "Do not create a second parking session.",
+    "Audit staff identity, ticket, timestamp, and verification note.",
+    "Do not store identity-document images."
+  ],
+  "data_entities": ["LostTicketCase", "ParkingTicket", "Payment", "AuditEvent"],
+  "suggested_api": [
+    {"method": "POST", "path": "/api/v1/lost-ticket-cases"},
+    {"method": "POST", "path": "/api/v1/lost-ticket-cases/{caseId}/payments"}
+  ],
+  "dependencies": ["CONF-MPS-001", "CONF-MPS-003", "CONF-MPS-004"]
+}

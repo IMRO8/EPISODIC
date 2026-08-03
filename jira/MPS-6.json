@@ -1,0 +1,21 @@
+{
+  "key": "MPS-6",
+  "project": "Mall Parking System",
+  "issue_type": "Story",
+  "summary": "Display current parking occupancy",
+  "status": "To Do",
+  "priority": "High",
+  "story_points": 3,
+  "labels": ["mvp", "occupancy", "dashboard"],
+  "confluence_page_id": "CONF-MPS-006",
+  "user_story": "As a parking manager, I want to see current occupancy so that I know whether the lot can accept another vehicle.",
+  "description": "Expose total, occupied, and available spaces plus an OPEN or FULL lot status through a small API and terminal-friendly view.",
+  "acceptance_criteria": [
+    "Available spaces equal max(capacity minus occupied spaces, zero).",
+    "The status is FULL exactly when available spaces are zero.",
+    "Successful entry and exit operations update occupancy exactly once.",
+    "Availability is never displayed as a negative value."
+  ],
+  "dependencies": ["MPS-2", "MPS-4"],
+  "out_of_scope": ["Floor maps", "Bay sensors", "Historical analytics"]
+}

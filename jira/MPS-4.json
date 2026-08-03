@@ -1,0 +1,22 @@
+{
+  "key": "MPS-4",
+  "project": "Mall Parking System",
+  "issue_type": "Story",
+  "summary": "Record payment and validate vehicle exit",
+  "status": "To Do",
+  "priority": "Highest",
+  "story_points": 8,
+  "labels": ["mvp", "payment", "exit-gate"],
+  "confluence_page_id": "CONF-MPS-004",
+  "user_story": "As a driver, I want to pay for parking and leave the lot so that my parking session is completed.",
+  "description": "Record a successful cash or card payment, mark the ticket PAID, permit exit for fifteen minutes, and close the ticket when the gate validates it.",
+  "acceptance_criteria": [
+    "Payment records contain ticket ID, exact amount, method, time, and unique reference.",
+    "Successful payment changes OPEN to PAID exactly once.",
+    "A PAID ticket can exit within fifteen minutes.",
+    "Successful exit changes PAID to CLOSED and decrements occupancy exactly once.",
+    "Duplicate payment and exit requests are idempotent."
+  ],
+  "dependencies": ["MPS-3"],
+  "out_of_scope": ["Gateway settlement", "Refunds", "Partial payments"]
+}

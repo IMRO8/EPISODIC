@@ -1,0 +1,31 @@
+{
+  "page_id": "CONF-MPS-001",
+  "space_key": "MALLPARK",
+  "title": "Parking Capacity and Fee Configuration",
+  "linked_jira_key": "MPS-1",
+  "status": "Draft",
+  "version": 1,
+  "overview": "One versioned configuration is shared by the entry, pricing, payment, lost-ticket, and occupancy components.",
+  "actors": ["Parking Manager"],
+  "preconditions": ["The user is authenticated as a parking manager."],
+  "main_flow": [
+    "The manager opens configuration.",
+    "The manager enters capacity, grace period, hourly rate, daily cap, lost-ticket fee, and currency.",
+    "The system validates all values.",
+    "The system creates a new version and makes it active."
+  ],
+  "alternative_flows": [
+    {"condition": "A value is outside its valid range.", "result": "Reject the update and identify the invalid fields."}
+  ],
+  "business_rules": [
+    "Capacity is at least one.",
+    "Money uses INR with two decimal places.",
+    "New versions do not rewrite prior versions."
+  ],
+  "data_entities": ["ParkingConfiguration"],
+  "suggested_api": [
+    {"method": "GET", "path": "/api/v1/configuration/active"},
+    {"method": "PUT", "path": "/api/v1/configuration"}
+  ],
+  "dependencies": []
+}

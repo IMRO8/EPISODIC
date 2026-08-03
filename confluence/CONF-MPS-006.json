@@ -1,0 +1,28 @@
+{
+  "page_id": "CONF-MPS-006",
+  "space_key": "MALLPARK",
+  "title": "Parking Occupancy Dashboard",
+  "linked_jira_key": "MPS-6",
+  "status": "Draft",
+  "version": 1,
+  "overview": "A small operational view reports capacity, occupied spaces, available spaces, and whether entry is currently allowed.",
+  "actors": ["Parking Manager", "Entry Gate"],
+  "preconditions": ["An active parking configuration exists."],
+  "main_flow": [
+    "The manager requests occupancy.",
+    "The system loads capacity and occupied count.",
+    "The system calculates available spaces.",
+    "The system returns total, occupied, available, and OPEN or FULL status."
+  ],
+  "alternative_flows": [
+    {"condition": "The counter is outside its valid range.", "result": "Return a data-integrity warning and fail the entry decision closed."}
+  ],
+  "business_rules": [
+    "Available equals max(capacity minus occupied, zero).",
+    "FULL means available equals zero.",
+    "Only successful ticket creation and first ticket closure affect the counter."
+  ],
+  "data_entities": ["OccupancyCounter", "ParkingConfiguration"],
+  "suggested_api": [{"method": "GET", "path": "/api/v1/occupancy"}],
+  "dependencies": ["CONF-MPS-002", "CONF-MPS-004"]
+}

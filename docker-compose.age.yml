@@ -1,0 +1,25 @@
+services:
+  age:
+    image: apache/age:latest
+    container_name: episodic-memory-age
+    restart: unless-stopped
+    ports:
+      - "${POSTGRES_PORT:-5455}:5432"
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER:-postgres}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-postgres}"
+      POSTGRES_DB: "${POSTGRES_DB:-episodic_memory_db}"
+    volumes:
+      - episodic_memory_age_data:/var/lib/postgresql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-episodic_memory_db}",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  episodic_memory_age_data:

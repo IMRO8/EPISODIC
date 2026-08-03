@@ -1,0 +1,22 @@
+{
+  "key": "MPS-5",
+  "project": "Mall Parking System",
+  "issue_type": "Story",
+  "summary": "Handle a lost parking ticket",
+  "status": "To Do",
+  "priority": "Medium",
+  "story_points": 5,
+  "labels": ["mvp", "lost-ticket", "cashier"],
+  "confluence_page_id": "CONF-MPS-005",
+  "user_story": "As a cashier, I want to process a lost-ticket case so that a verified driver can pay and exit.",
+  "description": "Find the unique OPEN session by vehicle number, require a staff verification note, charge the greater of the normal fee and lost-ticket fee, and reuse the normal exit flow.",
+  "acceptance_criteria": [
+    "Only a cashier or parking manager can process a lost ticket.",
+    "A verification note is mandatory.",
+    "The amount due is max(normal fee, configured lost-ticket fee).",
+    "The original ticket is reused instead of creating another parking session.",
+    "The action is written to the audit log."
+  ],
+  "dependencies": ["MPS-1", "MPS-3", "MPS-4"],
+  "out_of_scope": ["Identity-document image storage", "Dispute resolution"]
+}

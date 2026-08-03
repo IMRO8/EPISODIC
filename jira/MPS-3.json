@@ -1,0 +1,22 @@
+{
+  "key": "MPS-3",
+  "project": "Mall Parking System",
+  "issue_type": "Story",
+  "summary": "Calculate the fee for an open parking ticket",
+  "status": "To Do",
+  "priority": "Highest",
+  "story_points": 5,
+  "labels": ["mvp", "pricing", "checkout"],
+  "confluence_page_id": "CONF-MPS-003",
+  "user_story": "As a cashier, I want the system to calculate the parking charge so that the driver pays the correct amount.",
+  "description": "Calculate the amount due from entry time to calculation time using the configured grace period, rounded-up hourly charge, and daily cap.",
+  "acceptance_criteria": [
+    "Parking within the grace period costs zero.",
+    "Every started hour after the grace period is charged as a full hour.",
+    "The charge for each 24-hour period does not exceed the daily cap.",
+    "The quote contains duration, amount, currency, and pricing-rule version.",
+    "Unknown and CLOSED tickets are rejected."
+  ],
+  "dependencies": ["MPS-1", "MPS-2"],
+  "out_of_scope": ["Coupons", "Purchase validation", "Tax invoices"]
+}

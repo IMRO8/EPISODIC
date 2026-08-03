@@ -1,0 +1,35 @@
+{
+  "page_id": "CONF-MPS-004",
+  "space_key": "MALLPARK",
+  "title": "Payment and Vehicle Exit",
+  "linked_jira_key": "MPS-4",
+  "status": "Draft",
+  "version": 1,
+  "overview": "Payment changes an OPEN ticket to PAID; a successful gate validation inside the exit window changes it to CLOSED and releases capacity.",
+  "actors": ["Driver", "Cashier", "Exit Gate"],
+  "preconditions": ["The ticket exists with OPEN status."],
+  "main_flow": [
+    "The cashier obtains the current quote.",
+    "The driver pays the exact amount by cash or card.",
+    "The system records payment and marks the ticket PAID.",
+    "The exit gate validates the ticket within fifteen minutes.",
+    "The system marks the ticket CLOSED and decrements occupancy."
+  ],
+  "alternative_flows": [
+    {"condition": "Payment fails.", "result": "Leave the ticket OPEN."},
+    {"condition": "The exit window expires.", "result": "Require recalculation before exit."},
+    {"condition": "A request is repeated.", "result": "Return the prior result without repeating its side effects."}
+  ],
+  "business_rules": [
+    "Supported methods are CASH and CARD.",
+    "Payment references are unique.",
+    "Payment and state transition are atomic.",
+    "Exit closure and occupancy decrement are atomic."
+  ],
+  "data_entities": ["ParkingTicket", "Payment", "OccupancyCounter", "AuditEvent"],
+  "suggested_api": [
+    {"method": "POST", "path": "/api/v1/tickets/{ticketId}/payments"},
+    {"method": "POST", "path": "/api/v1/tickets/{ticketId}/exit"}
+  ],
+  "dependencies": ["CONF-MPS-003"]
+}

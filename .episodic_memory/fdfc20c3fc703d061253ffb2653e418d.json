@@ -1,0 +1,194 @@
+{
+  "episode_id": "fdfc20c3fc703d061253ffb2653e418d",
+  "ticket_key": "MPS-2",
+  "task": "write code for Jira ticket MPS-2 and store it under the right subdirectory",
+  "project": "ERP_mem",
+  "outcome": {
+    "status": "success",
+    "summary": "MPS-2 was already fully implemented and verified under parking/. This run audited jira/MPS-2.json, confirmed all four acceptance criteria are covered, and required no code changes. Verification passed: 41 pytest, 20 parking unittests, CLI smoke tests, and package import checks.",
+    "confidence": 0.97
+  },
+  "context": {
+    "repository_path": "/Users/rohithpapani/ERP_mem",
+    "python_version": null,
+    "ticket_source": null,
+    "requirements_source": null
+  },
+  "decisions": [
+    {
+      "decision": "Use parking/ as the right subdirectory for MPS-2, not mps/",
+      "reason": "jira/MPS-2.json defines the project as Mall Parking System, while mps/__init__.py identifies mps/ as the unrelated Master Production Schedule ERP engine."
+    },
+    {
+      "decision": "Make no file edits and accept the existing parking/ implementation as the MPS-2 deliverable",
+      "reason": "parking/app/ticket.py, parking/app/config.py, parking/app/main.py, and parking/tests/test_entry.py already implement all four MPS-2 acceptance criteria and pass pytest, unittest, and CLI smoke verification."
+    },
+    {
+      "decision": "Treat the in-repo jira/MPS-2.json as the source of truth rather than the external fixture used by stale episode 29ddb6fe",
+      "reason": "The in-repo ticket fixture exists and accurately describes MPS-2; current source overrides stale memory from the earlier failed planning episode."
+    },
+    {
+      "decision": "Keep MPS-2 CLI-only instead of adding the HTTP endpoints suggested by CONF-MPS-002",
+      "reason": "MPS-2 acceptance criteria do not require HTTP, and the CLI matches existing repository conventions."
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/Users/rohithpapani/ERP_mem/jira/MPS-2.json",
+      "operation": "read",
+      "purpose": "Source of truth for MPS-2 acceptance criteria"
+    },
+    {
+      "path": "/Users/rohithpapani/ERP_mem/parking/app/ticket.py",
+      "operation": "read",
+      "purpose": "Verified core MPS-2 engine: TicketService, TicketStore, Occupancy, ParkingTicket, normalize_vehicle_number, LotFullError"
+    },
+    {
+      "path": "/Users/rohithpapani/ERP_mem/parking/app/config.py",
+      "operation": "read",
+      "purpose": "Verified MPS-1 configuration dependency: ParkingConfiguration and ConfigStore.active()"
+    },
+    {
+      "path": "/Users/rohithpapani/ERP_mem/parking/__init__.py",
+      "operation": "read",
+      "purpose": "Verified public API exports including create_ticket and get_ticket"
+    },
+    {
+      "path": "/Users/rohithpapani/ERP_mem/parking/app/main.py",
+      "operation": "read",
+      "purpose": "Reviewed CLI implementation for single and batch JSON requests"
+    },
+    {
+      "path": "/Users/rohithpapani/ERP_mem/parking/app/__main__.py",
+      "operation": "read",
+      "purpose": "Verified python -m parking.app invocation entry point"
+    },
+    {
+      "path": "/Users/rohithpapani/ERP_mem/parking/tests/test_entry.py",
+      "operation": "read",
+      "purpose": "Reviewed the 20 parking unit tests covering all MPS-2 acceptance criteria and CLI behavior"
+    },
+    {
+      "path": "/Users/rohithpapani/ERP_mem/jira/MPS-1.json",
+      "operation": "read",
+      "purpose": "Reviewed MPS-2 dependency context for configuration requirements"
+    },
+    {
+      "path": "/Users/rohithpapani/ERP_mem/confluence/CONF-MPS-002.json",
+      "operation": "read",
+      "purpose": "Reviewed entry-flow business rules and suggested API for MPS-2"
+    },
+    {
+      "path": "/Users/rohithpapani/ERP_mem/mps/__init__.py",
+      "operation": "read",
+      "purpose": "Confirmed mps/ is the Master Production Schedule engine, not the MPS-2 target subdirectory"
+    },
+    {
+      "path": "/Users/rohithpapani/ERP_mem/.episodic_memory/29ddb6fef2beced5edbc79eb676d631e.json",
+      "operation": "read",
+      "purpose": "Reviewed stale failed MPS-2 episode to avoid repeating its incorrect mps/ and external-fixture assumptions"
+    },
+    {
+      "path": "/Users/rohithpapani/ERP_mem/.episodic_memory/6c54653201ca9a92aef1b22f75bb7c39.json",
+      "operation": "read",
+      "purpose": "Reviewed successful MPS-1 episode for repository conventions and module structure"
+    }
+  ],
+  "interfaces_produced": [
+    {
+      "type": "python",
+      "name": "parking ticket service API",
+      "method": null,
+      "path": "parking/app/ticket.py",
+      "consumers": [
+        "parking/__init__.py",
+        "parking/app/main.py",
+        "parking/tests/test_entry.py",
+        "future MPS-3/4/6 implementations"
+      ]
+    },
+    {
+      "type": "python",
+      "name": "ParkingConfiguration / ConfigStore",
+      "method": null,
+      "path": "parking/app/config.py",
+      "consumers": [
+        "parking/app/ticket.py",
+        "would-be MPS-1 configuration consumers"
+      ]
+    },
+    {
+      "type": "cli",
+      "name": "parking entry CLI",
+      "method": "python -m parking.app --capacity N",
+      "path": "parking/app/main.py",
+      "consumers": [
+        "operators",
+        "shell scripts",
+        "automated tests"
+      ]
+    }
+  ],
+  "failure_and_recovery": [],
+  "verification": [
+    {
+      "kind": "pytest",
+      "command": ".venv/bin/python -m pytest -q",
+      "status": "passed",
+      "passed": 41,
+      "failed": 0,
+      "observations": [
+        "41 passed in 0.05s",
+        "Includes parking module tests plus existing baseline tests"
+      ]
+    },
+    {
+      "kind": "unittest",
+      "command": ".venv/bin/python -m unittest discover -s parking/tests -p 'test_*.py'",
+      "status": "passed",
+      "passed": 20,
+      "failed": 0,
+      "observations": [
+        "Ran 20 tests in 0.008s; OK"
+      ]
+    },
+    {
+      "kind": "CLI smoke test",
+      "command": "echo '{\"vehicle_number\":\"MH12-AB 1234\",\"idempotency_key\":\"k1\"}' | .venv/bin/python -m parking.app --capacity 2; batch at capacity 2; idempotent repeat",
+      "status": "passed",
+      "passed": null,
+      "failed": null,
+      "observations": [
+        "Single request returns an OPEN ticket with ticket_id, normalized vehicle_number, server entry_time, and status OPEN",
+        "Batch of 3 at capacity 2 returns 2 OPEN tickets plus a LOT_FULL result",
+        "Idempotent repeat returns the existing ticket without changing occupancy"
+      ]
+    },
+    {
+      "kind": "import smoke test",
+      "command": ".venv/bin/python -c \"import parking; from parking import create_ticket, get_ticket, ParkingConfiguration, LotFullError; ...\"",
+      "status": "passed",
+      "passed": null,
+      "failed": null,
+      "observations": [
+        "Package imports succeed",
+        "create_ticket/get_ticket round-trip works",
+        "ParkingConfiguration and LotFullError are exported correctly"
+      ]
+    }
+  ],
+  "reusable_knowledge": [
+    "MPS-2 (Mall Parking System) belongs in parking/, not mps/. The mps/ package is the unrelated Master Production Schedule ERP engine.",
+    "Parking module layout: parking/app/config.py has ParkingConfiguration (capacity, grace_period_minutes, hourly_rate_paise, daily_cap_paise, lost_ticket_fee_paise, currency, version) and ConfigStore.active(); parking/app/ticket.py has STATUS_OPEN, ParkingTicket, TicketStore, Occupancy, TicketService.enter/get, normalize_vehicle_number, and LotFullError; parking/app/main.py provides the CLI; parking/tests/test_entry.py has 20 tests.",
+    "TicketService.enter is atomic and idempotent: an idempotency-key hit returns the existing ticket before the capacity check, and ticket creation plus occupancy increment happen together; duplicate ticket IDs abort without changing occupancy.",
+    "MPS-2 CLI: `python -m parking.app --capacity N` accepts a single JSON object or a list of objects from stdin or a file; a single successful entry exits 0, a single LOT_FULL exits 1, invalid payloads exit 2, and batch mode emits per-item results including inline LOT_FULL.",
+    "CONF-MPS-002 suggests POST/GET /api/v1/tickets, but the MPS-2 acceptance criteria do not require HTTP; a CLI-only interface is a valid documented choice consistent with repository conventions.",
+    "Future MPS seams: ParkingTicket.entry_time/status and config grace/hourly_rate_paise/daily_cap_paise/currency/version support MPS-3 fee calculation; Occupancy currently has no decrement() and will need one for MPS-4; capacity and occupancy feed MPS-6 availability.",
+    "The in-repo jira/MPS-2.json is authoritative and supersedes the external fixture and mps/ assumptions recorded in stale failed episode 29ddb6fe."
+  ],
+  "provenance": {
+    "langfuse_trace_id": "fdfc20c3fc703d061253ffb2653e418d",
+    "plan_session_id": "ses_03c3254f2ffeK2mUp637SQpx1C",
+    "build_session_id": "ses_03c316bf7ffewSAS4SEHqdqYzW"
+  }
+}

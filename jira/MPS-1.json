@@ -1,0 +1,21 @@
+{
+  "key": "MPS-1",
+  "project": "Mall Parking System",
+  "issue_type": "Story",
+  "summary": "Configure parking capacity and fee rules",
+  "status": "To Do",
+  "priority": "High",
+  "story_points": 3,
+  "labels": ["mvp", "configuration", "pricing"],
+  "confluence_page_id": "CONF-MPS-001",
+  "user_story": "As a parking manager, I want to configure capacity and fee rules so that every parking ticket is priced consistently.",
+  "description": "Create one active configuration containing total capacity, grace period, hourly rate, daily cap, lost-ticket fee, currency, and version.",
+  "acceptance_criteria": [
+    "Capacity must be a positive integer.",
+    "Grace period and monetary values cannot be negative.",
+    "The active configuration can be retrieved by entry, pricing, payment, and occupancy services.",
+    "Every configuration update creates an auditable version."
+  ],
+  "dependencies": [],
+  "out_of_scope": ["Multiple parking zones", "Dynamic event pricing"]
+}

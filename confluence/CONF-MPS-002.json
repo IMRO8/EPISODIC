@@ -1,0 +1,33 @@
+{
+  "page_id": "CONF-MPS-002",
+  "space_key": "MALLPARK",
+  "title": "Vehicle Entry and Ticket Issuance",
+  "linked_jira_key": "MPS-2",
+  "status": "Draft",
+  "version": 1,
+  "overview": "The entry service creates one open parking session per accepted vehicle and rejects entry when no capacity remains.",
+  "actors": ["Driver", "Entry Gate"],
+  "preconditions": ["An active parking configuration exists.", "The entry gate can reach the ticket service."],
+  "main_flow": [
+    "The gate sends a normalized vehicle number and idempotency key.",
+    "The system checks occupancy against capacity.",
+    "The system creates an OPEN ticket with a server timestamp.",
+    "The system increments occupancy in the same transaction.",
+    "The gate returns the ticket and opens."
+  ],
+  "alternative_flows": [
+    {"condition": "The lot is full.", "result": "Do not create a ticket and return LOT_FULL."},
+    {"condition": "The idempotency key already exists.", "result": "Return the existing ticket without changing occupancy."}
+  ],
+  "business_rules": [
+    "Ticket IDs are unique external identifiers.",
+    "Vehicle numbers are trimmed and uppercased.",
+    "Ticket creation and occupancy increment are atomic."
+  ],
+  "data_entities": ["ParkingTicket", "OccupancyCounter"],
+  "suggested_api": [
+    {"method": "POST", "path": "/api/v1/tickets"},
+    {"method": "GET", "path": "/api/v1/tickets/{ticketId}"}
+  ],
+  "dependencies": ["CONF-MPS-001"]
+}

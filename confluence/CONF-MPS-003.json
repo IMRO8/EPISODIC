@@ -1,0 +1,29 @@
+{
+  "page_id": "CONF-MPS-003",
+  "space_key": "MALLPARK",
+  "title": "Parking Fee Calculation",
+  "linked_jira_key": "MPS-3",
+  "status": "Draft",
+  "version": 1,
+  "overview": "The checkout component produces a deterministic fee quote for an OPEN ticket using one pricing-rule version.",
+  "actors": ["Cashier", "Driver"],
+  "preconditions": ["The ticket exists with OPEN status.", "A pricing configuration exists."],
+  "main_flow": [
+    "The cashier submits a ticket ID.",
+    "The system calculates elapsed time using the server clock.",
+    "The system applies grace period, rounded-up hourly pricing, and daily caps.",
+    "The system returns a detailed quote."
+  ],
+  "alternative_flows": [
+    {"condition": "The ticket is inside the grace period.", "result": "Return INR 0.00."},
+    {"condition": "The ticket is unknown or CLOSED.", "result": "Reject the request with a ticket-state error."}
+  ],
+  "business_rules": [
+    "Elapsed time cannot be negative.",
+    "A partial hour after grace is rounded up.",
+    "Every 24-hour block is independently capped."
+  ],
+  "data_entities": ["ParkingTicket", "FeeQuote", "ParkingConfiguration"],
+  "suggested_api": [{"method": "GET", "path": "/api/v1/tickets/{ticketId}/quote"}],
+  "dependencies": ["CONF-MPS-001", "CONF-MPS-002"]
+}
